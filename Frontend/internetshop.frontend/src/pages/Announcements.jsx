@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import AnnouncementItem from './AnnouncementItem';
-import './AnnouncementItem.css';
+import AnnouncementItem from '../components/AnnouncementItem';
+import '../components/AnnouncementItem.css';
 
 const Announcements = () => {
   const [announcements, setAnnouncements] = useState([]);

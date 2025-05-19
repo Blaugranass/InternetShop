@@ -12,5 +12,5 @@ public class Client : BaseEntity
 
     public Cart? Cart { get; set; } 
 
-    public List<Announcement> Favourites { get; set; } = [];
+    public List<Announcement> Favorites { get; set; } = [];
 }

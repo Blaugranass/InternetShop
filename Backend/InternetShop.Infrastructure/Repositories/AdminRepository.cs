@@ -8,10 +8,10 @@ public class AdminRepository(ShopDbContext dbContext) : Repository<Admin>(dbCont
 {
 
     private readonly ShopDbContext _dbContext = dbContext;
-    public async Task<Admin?> GetByNameAsync(string name)
+    public async Task<Admin> GetByNameAsync(string name)
     {
         return await _dbContext.Admins
             .AsNoTracking()
-            .FirstOrDefaultAsync(a=> a.Name == name);
+            .FirstAsync(a=> a.Name == name);
     }
 }

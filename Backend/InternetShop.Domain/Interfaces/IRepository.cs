@@ -12,8 +12,5 @@ public interface IRepository<T> where T : BaseEntity
 
     Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
 
-    Task<T?> GetByIdAsync(Guid id);
-
-    Task<IEnumerable<T>> GetByFilterAsync(Expression<Func<T,bool>> expression,
-        CancellationToken cancellationToken = default);
+    Task<T> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 }

@@ -1,10 +1,10 @@
 import React from 'react';
-import Announcements from './Components/Announcements';
+import Home from './pages/Home'
 
 function App() {
   return (
     <div className="App">
-      <Announcements />
+      <Home />
     </div>
   );
 }

@@ -4,5 +4,5 @@ namespace InternetShop.Domain.Interfaces;
 
 public interface IAdminRepository : IRepository<Admin>
 {
-    Task<Admin?> GetByNameAsync(string name);
+    Task<Admin> GetByNameAsync(string name);
 }

@@ -1,6 +1,6 @@
 using InternetShop.Domain.Enums;
 
-namespace InternetShop.Application.Dtos;
+namespace InternetShop.Application.Dtos.Announcements;
 
 public record class EditAnnouncementDto
 (

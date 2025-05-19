@@ -31,19 +31,12 @@ public class Repository<T>(ShopDbContext dbContext) : IRepository<T> where T : B
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<T?> GetByIdAsync(Guid id)
+    public async Task<T> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await dbContext.Set<T>()
-            .FindAsync(id);
+            .AsNoTracking()
+            .Where(e => e.Id == id) 
+            .FirstAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<T>> GetByFilterAsync(
-        Expression<Func<T,bool>> expression,
-        CancellationToken cancellationToken = default)
-    {
-        return await dbContext.Set<T>()
-            .Where(expression)
-            .AsNoTracking()
-            .ToListAsync(cancellationToken);
-    }
 }

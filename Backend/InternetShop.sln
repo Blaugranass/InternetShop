@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetShop.Application", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetShop.API", "InternetShop.API\InternetShop.API.csproj", "{2AFEF033-C918-41A4-B857-FC4BF255D757}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetShop.Tests", "InternetShop.Tests\InternetShop.Tests.csproj", "{39B6DCAA-4C50-4A1D-8B4D-B73AD285F3F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{2AFEF033-C918-41A4-B857-FC4BF255D757}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AFEF033-C918-41A4-B857-FC4BF255D757}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AFEF033-C918-41A4-B857-FC4BF255D757}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39B6DCAA-4C50-4A1D-8B4D-B73AD285F3F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39B6DCAA-4C50-4A1D-8B4D-B73AD285F3F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39B6DCAA-4C50-4A1D-8B4D-B73AD285F3F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39B6DCAA-4C50-4A1D-8B4D-B73AD285F3F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

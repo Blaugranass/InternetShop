@@ -1,11 +1,14 @@
-using InternetShop.Application.Quaries;
+using InternetShop.Application.Queries.Announcements;
 using InternetShop.Application.Commands.Announcements;
 using InternetShop.Domain.Entities;
 using InternetShop.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using InternetShop.Application.Dtos;
+using InternetShop.Application.Dtos.Announcements;
+using InternetShop.Application.Handlers.Announcements;
+using InternetShop.Application.Pagination;
+using InternetShop.Domain.Filters;
 
 namespace InternetShop.API.Controllers
 {
@@ -13,120 +16,78 @@ namespace InternetShop.API.Controllers
     [ApiController]
     public class AnnouncementsController(IMediator mediator) : ControllerBase
     {
-        private static List<Announcement> announcements = new List<Announcement>
-        {
-            new() {
-                Id = Guid.NewGuid(),
-                Status = AnnouncementStatus.Active,
-                Product = new Accessory 
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Чехол Красивый",
-                    Description = "Чехол для iPhone 15",
-                    AccessoryTypeId = Guid.Parse("d3d3d3d3-d3d3-d3d3-d3d3-d3d3d3d3d3d3"),
-                    Type = new AccessoryType 
-                    { 
-                        Id = Guid.Parse("d3d3d3d3-d3d3-d3d3-d3d3-d3d3d3d3d3d3"),
-                        Type = "Чехлы" 
-                    }
-                },
-                Quantity = 10,
-                Price = 29.99m,
-                CreatedAt = DateTime.UtcNow
-            },
-            new() {
-                Id = Guid.NewGuid(),
-                Status = AnnouncementStatus.Frozen,
-                Product = new Accessory 
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Наушники лучшие",
-                    Description = "Беспроводные наушники",
-                    AccessoryTypeId = Guid.Parse("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
-                    Type = new AccessoryType 
-                    { 
-                        Id = Guid.Parse("c4c4c4c4-c4c4-c4c4-c4c4-c4c4c4c4c4c4"),
-                        Type = "Аксессуары для аудио" 
-                    }
-                },
-                Quantity = 5,
-                Price = 149.99m,
-                CreatedAt = DateTime.UtcNow
-            }
-        };
-                
+
         [HttpGet("all")]
+        [Authorize(Roles = "Operator")]
         public async Task<ActionResult<IEnumerable<Announcement>>> GetAllAnnouncement()
         {
-            try
-            {
-            await Task.Delay(0); 
+            var announcements = await mediator.Send(new GetActiveAnnouncementsQuery());
             return Ok(announcements);
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
         }
 
+        [HttpGet]
+        [Authorize(Roles = "Operator, Client")]
+        public async Task<ActionResult<PagedResult<Announcement>>> GetAnnouncementsAsync(
+            [FromQuery] PageParams pageParams,
+            [AsParameters, FromQuery] AnnouncementFilters filters,
+            CancellationToken cancellationToken)
+        {
+            var announcements = await mediator.Send(
+                new GetAnnouncementsQuery(pageParams, filters),
+                cancellationToken);
+
+            return Ok(announcements);
+        }
+
+
         [HttpGet("{id}")]
-        [Authorize(Roles = "Operator")]
+        [Authorize(Roles = "Operator, Client")]
         public async Task<ActionResult<Announcement>> GetAnnouncementById(Guid id)
         {
-            try
-            {
-                var announcement = await mediator.Send(new GetAnnouncementByIdQuery(id));
-                return Ok(announcement);
-            }
-            catch(NullReferenceException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var announcement = await mediator.Send(
+                new GetAnnouncementByIdQuery(id));
+
+            return Ok(announcement);
         }
         
         [HttpPost("create/accessory")]
         [Authorize(Roles = "Operator")]
-        public async Task<ActionResult<Guid>> CreateAnnouncement([FromBody] CreateAnnouncementAccessoryDto create)
+        public async Task<ActionResult<Guid>> CreateAnnouncement(
+            [FromBody] CreateAnnouncementAccessoryDto create,
+            CancellationToken cancellationToken)
         {
-            try
-            {
-                var id = await mediator.Send(new CreateAnnouncementAccessoryCommand(create));
-                return Ok(id);
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var id = await mediator.Send(new CreateAnnouncementAccessoryCommand(create), cancellationToken);
+            return Ok(id);
+        }
+
+        [HttpPost("create/computer-hardware")]
+        [Authorize(Roles = "Operator")]
+        public async Task<ActionResult<Guid>> CreateAnnouncement(
+            [FromBody] CreateAnnouncementComputerHardwareDto create,
+            CancellationToken cancellationToken)
+        {
+            var id = await mediator.Send(new CreateAnnouncementComputerHardwareCommand(create), cancellationToken);
+            return Ok(id);
         }
 
         [HttpPatch("edit/{id}")]
         [Authorize(Roles = "Operator")]
-        public async Task<ActionResult> EditAnnoucement(Guid id, [FromBody] EditAnnouncementDto dto)
+        public async Task<ActionResult> EditAnnouncement(
+            Guid id,
+            [FromBody] EditAnnouncementDto dto,
+            CancellationToken cancellationToken)
         {
-            try
-            {
-                await mediator.Send(new EditAnnouncementCommand(id,dto));
-                return Ok();
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(new EditAnnouncementCommand(id,dto), cancellationToken);
+            return Ok();
         }
 
         [HttpDelete("delete/{id}")]
         [Authorize(Roles = "Operator")]
-        public async Task<ActionResult> DeleteAnnouncement(Guid id)
+        public async Task<ActionResult> DeleteAnnouncement(Guid id, CancellationToken cancellationToken)
         {
-            try
-            {
-                await mediator.Send(new DeleteAnnouncementCommand(id));
-                return Ok();
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(new DeleteAnnouncementCommand(id), cancellationToken);
+            return Ok();
         }
+
     }
 }

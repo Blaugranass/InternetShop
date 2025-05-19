@@ -1,0 +1,68 @@
+/* src/components/Header.css */
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: transparent; /* Убран фон */
+    box-shadow: none; /* Убрана тень */
+    position: relative;
+  }
+  
+  .header-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 2rem; /* Отступ от логотипа */
+  }
+  
+  .main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .main-nav li {
+    display: inline-block;
+  }
+  
+  /* Стили для ссылок */
+  .main-nav a {
+    color: #000; /* Черный цвет */
+    text-decoration: none; /* Без подчеркивания */
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+  
+  .main-nav a:hover {
+    color: #666; /* Цвет при наведении */
+  }
+  
+  .header-actions {
+    display: flex;
+    gap: 1.5rem;
+    position: absolute;
+    right: 2rem;
+    top: 1rem;
+  }
+  
+  .cart-btn, .account-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+  
+  .cart-btn:hover, .account-btn:hover {
+    opacity: 0.8;
+  }
+  
+  .cart-btn svg, .account-btn svg {
+    transition: transform 0.2s;
+  }
+  
+  .cart-btn:hover svg, .account-btn:hover svg {
+    transform: scale(1.1);
+  }

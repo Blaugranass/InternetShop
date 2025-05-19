@@ -11,30 +11,18 @@ namespace InternetShop.API.Controllers
     [ApiController]
     public class AdminsController(IMediator mediator) : ControllerBase
     {
+        [HttpPost("register")]
         public async Task<ActionResult> RegisterAdmin(RegisterAdminDto registerAdminDto)
         {  
-            try
-            { 
-                await mediator.Send(new RegisterAdministratorCommand(registerAdminDto));
-                return Ok();
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(new RegisterAdministratorCommand(registerAdminDto));
+            return Ok();
         }
 
+        [HttpPost("login")]
         public async Task<ActionResult> LoginAdmin(LoginAdminDto loginAdminDto)
         {
-            try
-            {
-                await mediator.Send(new LoginAdministratorCommand(loginAdminDto));
-                return Ok();            
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            await mediator.Send(new LoginAdministratorCommand(loginAdminDto));
+            return Ok();            
         }
     }
 }

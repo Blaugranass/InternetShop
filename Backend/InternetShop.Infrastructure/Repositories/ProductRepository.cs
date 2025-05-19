@@ -15,7 +15,7 @@ public class ProductRepository(ShopDbContext dbContext) : Repository<Product>(db
             .Where(p => p.Id == product.Id)
             .ExecuteUpdateAsync(setters => setters
             .SetProperty(p => p.Name, product.Name)
-            .SetProperty(p => p.Discription, product.Discription),
+            .SetProperty(p => p.Description, product.Description),
             cancellationToken);
 
     }

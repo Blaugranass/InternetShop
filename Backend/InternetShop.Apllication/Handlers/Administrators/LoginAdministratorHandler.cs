@@ -12,11 +12,8 @@ public class LoginAdministratorHandler(IAdminRepository repository, IJwtService 
 {
     public async Task Handle(LoginAdministratorCommand command, CancellationToken cancellationToken)
     {
-        var admin = await repository.GetByNameAsync(command.LoginAdmin.Name);
-        if(admin is null)
-        {
+        var admin = await repository.GetByNameAsync(command.LoginAdmin.Name) ??
             throw new Exception("Admin with this name not found");
-        }
 
         var result = new PasswordHasher<Admin>()
             .VerifyHashedPassword(admin, admin.HashPassword, command.LoginAdmin.Password);

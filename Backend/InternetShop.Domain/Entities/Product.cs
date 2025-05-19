@@ -8,6 +8,6 @@ public abstract class Product : BaseEntity
 {
     public string Name {get; set; } = string.Empty;
 
-    public string Discription {get; set; } = string.Empty;
-
+    public string Description {get; set; } = string.Empty;
+   
 }
